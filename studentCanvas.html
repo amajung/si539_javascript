@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Canvas</title>
+
+		<!--CSS Style Code-->
+		<style type="text/css">
+		 	/* Canvas styling */
+			canvas {
+				border: 1px solid black;
+			}
+		</style>
+
+	</head>
+
+	<body>
+		<h1>Canvas</h1>
+		<canvas id="canvas" width=500px height=500px>
+	  	An alternative text describing what your canvas displays.
+		</canvas>
+
+		<!--Javascript Code-->
+		<script>
+			console.log(window)
+
+			//Rectangles
+			var canvas = document.querySelector('canvas');
+			var ctx = canvas.getContext('2d');
+			var x = 0;
+			var y = 0;
+			var color = "red";
+			var radius = 40;
+
+			// Set canvas to 80% of screen
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+
+			var canvas_w = 0.8*w;
+			var canvas_h = 0.8*h;
+
+			document.querySelector('canvas').width = canvas_w;
+			document.querySelector('canvas').height = canvas_h;
+
+
+			// Draw
+			function draw() {
+				ctx.beginPath();
+				ctx.fillStyle = color;
+				ctx.arc(x, y, radius, 0, 2*Math.PI);
+				ctx.fill();
+			}
+
+
+			// For mouse movements
+			window.addEventListener('mousemove', function (e) {
+				console.log(e.offsetX);
+				console.log(e.offsetY);
+				x = e.offsetX;
+				y = e.offsetY;
+				draw();
+
+				// Change color to value of Color Picker
+				console.log(document.getElementsByName('color_picked')[0].value)
+				color = document.getElementsByName('color_picked')[0].value
+			})
+
+			// For key presses
+			window.addEventListener('keyup', function (e) {
+				console.log(e.offsetX);
+				console.log(e.offsetY);
+				console.log(e.key);
+
+				/* Changing the Color */
+				if (e.key == 'b') {
+					color = "blue";
+					document.getElementsByName('color_picked')[0].value = '#0000ff';
+				}
+				else if (e.key == 'g') {
+					color = 'green';
+					document.getElementsByName('color_picked')[0].value = '#008000';
+				}
+				else if (e.key == 'r') {
+					color = 'red';
+					document.getElementsByName('color_picked')[0].value = '#ff0000';
+				}
+				else if (e.key == 'y') {
+					color = 'yellow';
+					document.getElementsByName('color_picked')[0].value = '#ffff00';
+				}
+
+				/* Changing the Size */
+				if (e.key == 'ArrowUp') {
+					radius += 5;
+				}
+				else if (e.key == 'ArrowDown') {
+					/* Make sure the pen can never be set to 0 or less */
+					if (radius > 0) {
+						radius -= 5;
+					}
+				}
+
+				draw();
+
+				/* Clearing the Board */
+				if (e.key == ' ') {
+					ctx.clearRect(0, 0, canvas.width, canvas.height)
+				}
+
+
+			})
+
+		// For touch events
+		window.addEventListener('touchstart', function (e) {
+			window.addEventListener('touchmove', function (e) {
+				x = e.pageX;
+				y = e.pageY;
+				draw();
+			})
+		})
+
+		</script>
+
+		<!-- Color Picker -->
+		<br><input type="color" name="color_picked" value="#ff0000"><br>
+
+
+	</body>
+</html>
