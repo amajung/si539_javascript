@@ -119,6 +119,22 @@
 			})
 		})
 
+		// For device oreintation
+		window.addEventListener("orientationchange", function(e) {
+			// Set canvas to 80% of screen
+			var w = window.innerWidth;
+			var h = window.innerHeight;
+
+			var canvas_w = 0.8*w;
+			var canvas_h = 0.8*h;
+
+			document.querySelector('canvas').width = canvas_w;
+			document.querySelector('canvas').height = canvas_h;
+
+			// Clear Canvas board
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+		})
+
 		</script>
 
 		<!-- Color Picker -->
